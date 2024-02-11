@@ -31,11 +31,12 @@ def personal_data(request):
             full_name = form.cleaned_data['full_name']
             description = form.cleaned_data['description']
 
-            personal_data, created = PersonalData.objects.get_or_create(
+            personal_data, created = PersonalData.objects.update_or_create(
                 pk=1,
-                full_name=full_name, description=description)
+                defaults={'full_name': full_name, 'description': description}
+            )
 
-            personal_data.save()
+            # personal_data.save()
 
             return redirect('/')
     return render(request, 'personal_data_form.html', {'form': form})
