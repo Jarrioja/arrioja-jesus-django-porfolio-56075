@@ -7,7 +7,7 @@ Este es un proyecto básico para crear un portafolio utilizando Django, un marco
 Para instalar este proyecto, primero clone el repositorio
 
 ```bash
-git clone https://github.com/m
+git clone https://github.com/Jarrioja/arrioja-jesus-django-porfolio-56075
 ```
 
 ### Instalar dependencias
