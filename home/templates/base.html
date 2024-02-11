@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Porfolio</title>
+    <style>
+      
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: 'Arial', sans-serif; /* Fuente sans-serif */
+      }
+      li{
+        list-style: none;
+      }
+
+    
+      html {
+        background-color: #333; 
+        height: 100%;
+    }
+
+    section {
+        background-color: #fff; 
+        box-shadow: 0 0 10px rgba(0, 0, 0, 1); 
+        border-radius: 10px; 
+        overflow-x: hidden; 
+        position: relative; 
+        min-height: 100%; 
+        padding-bottom: 50px; 
+        max-width:800px;
+        margin:0 auto;
+        padding:3rem;
+    }
+
+      
+      nav {
+          background-color: #333;
+          color: #fff;
+          padding: 10px;
+          text-align: center;
+      }
+
+      nav a {
+          color: #fff;
+          text-decoration: none;
+          margin-right: 20px;
+      }
+
+      nav a:hover {
+          text-decoration: underline;
+      }
+
+      h1 {
+          text-align: center;
+          margin-top: 20px;
+          color: #44B78B;
+
+      }
+      h2{
+        margin: 20px 0;
+      }
+
+      footer {
+          text-align: center;
+          background-color: #333;
+          color: #fff;
+          padding: 10px;
+          position: fixed;
+          bottom: 0;
+          width: 100%;
+      }
+
+      form {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    form label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    form input[type="text"],
+    form textarea {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    form textarea {
+        height: 100px;
+    }
+
+    form input[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    form input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+  </style>
+  </head>
+  <h1>Bienvenido a mi porfolio en Django</h1>
+<nav>
+    <a href={% url "index" %}>Inicio</a>
+    <a href={% url "personal_data_edit" %}>Editar Datos personales</a>
+    <a href={% url "work_experience_edit" %}>Editar Experiencia laboral</a>
+    <a href={% url "projects_edit" %}>Editar Proyectos</a>
+
+    {% block header %} {% endblock header %}
+</nav>
+  <body>
+    <section>
+
+      {%block body%} {% endblock body %}
+    </section>
+  </body>
+  <footer></footer>
+</html>
