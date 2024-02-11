@@ -1,6 +1,7 @@
 # Portfolio on Django
 
 Este es un proyecto básico para crear un portafolio utilizando Django, un marco de desarrollo web en Python.
+![alt text](chrome_KBGkiXnQBq.png)
 
 ## Clonar y ejecutar
 
