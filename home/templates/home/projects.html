@@ -1,0 +1,34 @@
+{% extends "base.html" %} {% block h1_header %}
+<h1>Proyectos</h1>
+{% endblock h1_header %}
+
+{% block main %}
+<a href={% url "create_project" %}>Crear Proyecto</a>
+<form action={% url 'projects'%}>
+    {{data.form}}
+    <input type="submit" value="Buscar">
+  </form>
+{% if data.projects %}
+<ul>
+  {% for project in data.projects %}
+  <li>
+    <strong>
+      <a target="_blank" href={{project.project_link}}>
+        {{project.project_name}}
+      </a>
+    </strong>
+    <br />
+    {{project.project_description}}
+    <br />
+    <a href={%url 'view_project' project.id%}>Ver</a> | 
+    <a href={% url 'edit_project' project.id %}>Editar</a> | 
+    <a href={% url 'delete_project' project.id %}>Eliminar</a>
+  </li>
+  <br />
+  {% endfor %}
+</ul>
+{% else %}
+No hay informacion, agrega inforacion sobre tus Proyectos <a href={% url "create_work" %}>AQUI</a>
+{% endif %} 
+
+{% endblock main %}

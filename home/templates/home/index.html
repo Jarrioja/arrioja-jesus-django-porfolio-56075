@@ -1,4 +1,8 @@
-{% extends "base.html" %} {% load static %} {% block body %}
+{% extends "base.html" %} {% block h1_header %}
+<h1>Bienvenido a mi Porfolio</h1>
+{% endblock h1_header %}
+
+{% block main %}
 
 <h2>{{data.personal_data.full_name}}</h2>
 <p>{{data.personal_data.description}}</p>
@@ -16,7 +20,7 @@
   {% endfor %}
 </ul>
 {% else %}
-Agrega inforacion sobre tus trabajos anteriores <a href={% url "work_experience_edit" %}>AQUI</a>
+Agrega inforacion sobre tus trabajos anteriores <a href={% url "create_work" %}>AQUI</a>
 {% endif %} 
 <h2>Proyectos</h2>
 {% if data.projects %}
@@ -33,6 +37,6 @@ Agrega inforacion sobre tus trabajos anteriores <a href={% url "work_experience_
   {% endfor %}
 </ul>
 {% else %}
-Agrega inforacion sobre tus trabajos anteriores <a href={% url "projects_edit" %}>AQUI</a>
+Agrega inforacion sobre tus trabajos anteriores <a href={% url "edit_project" project.id %}>AQUI</a>
 {% endif %} 
-{% endblock body %}
+{% endblock main %}

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import PersonalData, WorkExperience, Projects
-from .forms import PersonalDataForm, WorkExperienceForm, ProjectsForm
+from .forms import PersonalDataForm, CreateWork, EditWork, SearchWork, CreateProject, EditProject, SearcProject
 
 # Create your views here.
 
@@ -11,18 +11,89 @@ def index(request):
         work_experiences = WorkExperience.objects.all()
         projects = Projects.objects.all()
 
+        form = SearchWork(request.GET)
+        if form.is_valid():
+            search = form.cleaned_data['company_name']
+            work_experiences = WorkExperience.objects.filter(
+                company_name__icontains=search)
+
         data = {
             'personal_data': personal_data,
             'work_experiences': work_experiences,
-            'projects': projects
+            'projects': projects,
+            'form': form,
+
         }
     except PersonalData.DoesNotExist:
         return redirect('forms/personal-data')
 
-    return render(request, 'index.html', {'data': data})
+    return render(request, 'home/index.html', {'data': data})
+    # return render(request, 'home/index.html')
 
 
-def personal_data(request):
+def works(request):
+    work_experiences = WorkExperience.objects.all()
+
+    form = SearchWork(request.GET)
+    if form.is_valid():
+        search = form.cleaned_data['company_name']
+        work_experiences = WorkExperience.objects.filter(
+            company_name__icontains=search)
+    data = {
+        'work_experiences': work_experiences,
+        'form': form,
+    }
+    return render(request, 'home/works.html', {'data': data})
+
+
+def create_work(request):
+    form = CreateWork()
+    if request.method == 'POST':
+        form = CreateWork(request.POST)
+        if form.is_valid():
+            company_name = form.cleaned_data['company_name']
+            position = form.cleaned_data['position']
+            year = form.cleaned_data['year']
+
+            work_experience = WorkExperience(
+                company_name=company_name, position=position, year=year)
+            work_experience.save()
+
+            return redirect('/works')
+
+    return render(request, 'work/create_work.html', {'form': form})
+
+
+def view_work(request, work_id):
+    work = WorkExperience.objects.get(id=work_id)
+    return render(request, 'work/view_work.html', {'work': work})
+
+
+def edit_work(request, work_id):
+    work = WorkExperience.objects.get(id=work_id)
+    form = EditWork(initial={'company_name': work.company_name,
+                    'position': work.position, 'year': work.year})
+
+    if request.method == 'POST':
+        form = EditWork(request.POST)
+        if form.is_valid():
+            new_data = form.cleaned_data
+            work.company_name = new_data['company_name']
+            work.position = new_data['position']
+            work.year = new_data['year']
+            work.save()
+            return redirect('works')
+
+    return render(request, 'work/edit_work.html', {'work': work, 'form': form})
+
+
+def delete_work(request, work_id):
+    work = WorkExperience.objects.get(id=work_id)
+    work.delete()
+    return redirect('works')
+
+
+def personal_data_form(request):
     form = PersonalDataForm()
     if request.method == 'POST':
         form = PersonalDataForm(request.POST)
@@ -39,40 +110,68 @@ def personal_data(request):
             # personal_data.save()
 
             return redirect('/')
-    return render(request, 'personal_data_form.html', {'form': form})
-
-
-def work_experience(request):
-    form = WorkExperienceForm()
-    if request.method == 'POST':
-        form = WorkExperienceForm(request.POST)
-        if form.is_valid():
-            company_name = form.cleaned_data['company_name']
-            position = form.cleaned_data['position']
-            year = form.cleaned_data['year']
-
-            work_experience = WorkExperience(
-                company_name=company_name, position=position, year=year)
-            work_experience.save()
-
-            return redirect('/')
-
-    return render(request, 'work_experience_form.html', {'form': form})
+    return render(request, 'home/personal_data_form.html', {'form': form})
 
 
 def projects(request):
-    form = ProjectsForm()
+    projects = Projects.objects.all()
+
+    form = SearcProject(request.GET)
+    if form.is_valid():
+        search = form.cleaned_data['project_name']
+        projects = Projects.objects.filter(
+            project_name__icontains=search)
+    data = {
+        'projects': projects,
+        'form': form,
+    }
+    return render(request, 'home/projects.html', {'data': data})
+
+
+def create_project(request):
+    form = CreateProject()
+
     if request.method == 'POST':
-        form = ProjectsForm(request.POST)
+        form = CreateProject(request.POST)
         if form.is_valid():
+
             project_name = form.cleaned_data['project_name']
             project_description = form.cleaned_data['project_description']
             project_link = form.cleaned_data['project_link']
-
-            projects = Projects(
+            print(project_name)
+            project = Projects(
                 project_name=project_name, project_description=project_description, project_link=project_link)
-            projects.save()
+            project.save()
 
-            return redirect('/')
+            return redirect('/projects')
 
-    return render(request, 'projects_form.html', {'form': form})
+    return render(request, 'project/create_project.html', {'form': form})
+
+
+def view_project(request, project_id):
+    project = Projects.objects.get(id=project_id)
+    return render(request, 'project/view_project.html', {'project': project})
+
+
+def edit_project(request, project_id):
+    project = Projects.objects.get(id=project_id)
+    form = EditProject(initial={'project_name': project.project_name,
+                                'project_description': project.project_description, 'project_link': project.project_link})
+
+    if request.method == 'POST':
+        form = EditProject(request.POST)
+        if form.is_valid():
+            new_data = form.cleaned_data
+            project.project_name = new_data['project_name']
+            project.project_description = new_data['project_description']
+            project.project_link = new_data['project_link']
+            project.save()
+            return redirect('projects')
+
+    return render(request, 'project/edit_project.html', {'project': project, 'form': form})
+
+
+def delete_project(request, project_id):
+    project = Projects.objects.get(id=project_id)
+    project.delete()
+    return redirect('projects')

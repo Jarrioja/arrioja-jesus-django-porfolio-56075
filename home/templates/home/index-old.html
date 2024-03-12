@@ -1,0 +1,38 @@
+{% extends "base.html" %} {% load static %} {% block body %}
+
+<h2>{{data.personal_data.full_name}}</h2>
+<p>{{data.personal_data.description}}</p>
+
+<h2>Trabajos</h2>
+{% if data.work_experiences %}
+<ul>
+  {% for work in data.work_experiences %}
+  <li>
+    <strong>{{work.company_name}}</strong> - {{work.year}}
+    <br />
+    {{work.position}}
+  </li>
+  <br />
+  {% endfor %}
+</ul>
+{% else %}
+Agrega inforacion sobre tus trabajos anteriores <a href={% url "create_work" %}>AQUI</a>
+{% endif %} 
+<h2>Proyectos</h2>
+{% if data.projects %}
+<ul>
+  {% for project in data.projects %}
+  <li>
+    <strong
+      ><a href="{{project.project_link}}">{{project.project_name}}</a></strong
+    >
+    <br />
+    {{project.project_description}}
+  </li>
+  <br />
+  {% endfor %}
+</ul>
+{% else %}
+Agrega inforacion sobre tus trabajos anteriores <a href={% url "edit_project" project.id %}>AQUI</a>
+{% endif %} 
+{% endblock body %}

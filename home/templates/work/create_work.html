@@ -1,0 +1,17 @@
+{% extends "base.html" %} {% load static %} 
+
+{% block header %}
+<h1>Crear Trabajo</h1>
+{% endblock header %}
+
+{% block main %}
+
+<form action={% url "create_work" %} method="post">
+  {% csrf_token %}
+  <table>
+    {{form}}
+  </table>
+  <input type="submit" value="Registrar"> 
+</form>
+
+{% endblock main %}

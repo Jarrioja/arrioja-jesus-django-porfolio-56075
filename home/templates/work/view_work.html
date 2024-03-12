@@ -1,0 +1,11 @@
+{% extends "base.html" %} {% block h1_header %}
+<h1>Datos del trabajo {{work.id}}</h1>
+{% endblock h1_header %} {% block main %}
+
+<ul>
+  <li>Nombre de la compañia: {{work.company_name}}</li>
+  <li>Cargo: {{work.position}}</li>
+  <li>Año: {{work.year}}</li>
+</ul>
+
+{% endblock main %}

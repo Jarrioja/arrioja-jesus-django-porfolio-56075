@@ -120,15 +120,21 @@
 <nav>
     <a href={% url "index" %}>Inicio</a>
     <a href={% url "personal_data_edit" %}>Editar Datos personales</a>
-    <a href={% url "work_experience_edit" %}>Editar Experiencia laboral</a>
-    <a href={% url "projects_edit" %}>Editar Proyectos</a>
+    <a href={% url "create_work" %}>Editar Experiencia laboral</a>
+    <a href={% url "projects" %}>Proyectos</a>
 
     {% block header %} {% endblock header %}
 </nav>
   <body>
     <section>
-
+      <form action={% url 'index'%}>
+        {{data.form}}
+        <input type="submit" value="Buscar">
+      </form>
+      
       {%block body%} {% endblock body %}
+
+      {% if data. %}{% endif %}
     </section>
   </body>
   <footer></footer>

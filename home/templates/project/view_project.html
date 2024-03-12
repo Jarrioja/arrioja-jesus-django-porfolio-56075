@@ -1,0 +1,18 @@
+{% extends "base.html" %} {% block h1_header %}
+<h1>Datos del Proyecto {{project.id}}</h1>
+{% endblock h1_header %} {% block main %}
+
+<ul>
+  <li>
+    <strong>
+      <a target="_blank" href="{{project.project_link}}">
+        {{project.project_name}}
+      </a>
+    </strong>
+    <br />
+    {{project.project_description}}
+    <br />
+  </li>
+</ul>
+
+{% endblock main %}

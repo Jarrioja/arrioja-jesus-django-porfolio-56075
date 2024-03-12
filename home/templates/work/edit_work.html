@@ -1,0 +1,17 @@
+{% extends "base.html" %} {% load static %} 
+
+{% block header %}
+<h1>Editar trabajo {{work.id}}</h1>
+{% endblock header %}
+
+{% block main %}
+
+<form action={% url "edit_work" work.id %} method="post">
+  {% csrf_token %}
+  <table>
+    {{form}}
+  </table>
+  <input type="submit" value="Editar Trabajo"> 
+</form>
+
+{% endblock main %}

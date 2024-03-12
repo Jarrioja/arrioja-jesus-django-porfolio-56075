@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% block h1_header %}
+<h1>Trabajos</h1>
+{% endblock h1_header %}
+
+{% block main %}
+<a href={% url "create_work" %}>Crear Trabajo</a>
+<form action={% url 'works'%}>
+    {{data.form}}
+    <input type="submit" value="Buscar">
+  </form>
+{% if data.work_experiences %}
+<ul>
+  {% for work in data.work_experiences %}
+  <li>
+    <strong>{{work.company_name}}</strong> - {{work.year}}
+    <br />
+    {{work.position}}
+    <br />
+    <a href={%url 'view_work' work.id%}>Ver</a> | 
+    <a href={% url 'edit_work' work.id %}>Editar</a> | 
+    <a href={% url 'delete_work' work.id %}>Eliminar</a>
+  </li>
+  <br />
+  {% endfor %}
+</ul>
+{% else %}
+No hay informacion, agrega inforacion sobre tus trabajos anteriores <a href={% url "create_work" %}>AQUI</a>
+{% endif %} 
+
+{% endblock main %}

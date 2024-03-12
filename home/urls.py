@@ -1,11 +1,26 @@
 from django.urls import path
-from home.views import index, personal_data, work_experience, projects
+from home.views import index, personal_data_form, create_work, view_work, delete_work, edit_work, works, create_project, delete_project, edit_project, view_project, projects
 
 urlpatterns = [
     path('', index, name='index'),
-    path('forms/personal-data/', personal_data, name='personal_data_edit'),
-    path('forms/work-experience/', work_experience, name='work_experience_edit'),
-    path('forms/projects/', projects, name='projects_edit')
+
+    path('works/', works, name='works'),
+    path('works/new/', create_work, name='create_work'),
+    path('works/delete/<int:work_id>/', delete_work, name="delete_work"),
+    path('works/edit/<int:work_id>/', edit_work, name="edit_work"),
+    path('works/<int:work_id>/', view_work, name="view_work"),
+
+
+
+    path('forms/personal-data/', personal_data_form, name='personal_data_edit'),
+
+    path('projects/', projects, name='projects'),
+    path('projects/new/', create_project, name='create_project'),
+    path('projects/delete/<int:project_id>/',
+         delete_project, name="delete_project"),
+    path('projects/edit/<int:project_id>/', edit_project, name='edit_project'),
+    path('projects/<int:project_id>/', view_project, name="view_project"),
+
     # path('show-time/', show_time, name='show_time'),
     # path('saludo/<str:name>/<str:last_name>/', saludo, name='saludo'),
     # path('students/', students, name='alumnos'),
