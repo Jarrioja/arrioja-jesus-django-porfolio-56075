@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect
 from .models import PersonalData, WorkExperience, Projects
-from .forms import PersonalDataForm, CreateWork, EditWork, SearchWork, CreateProject, EditProject, SearcProject
+from .forms import PersonalDataForm, CreateWork, EditWork, SearchWork, CreateProjectForm, EditProject, SearcProject
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.list import ListView
+from django.urls import reverse_lazy
+
 
 # Create your views here.
 
@@ -31,6 +35,12 @@ def index(request):
     # return render(request, 'home/index.html')
 
 
+class WorkListView(ListView):
+    model = WorkExperience
+    context_object_name = 'work_experiences'
+    template_name = 'home/works.html'
+
+
 def works(request):
     work_experiences = WorkExperience.objects.all()
 
@@ -54,9 +64,10 @@ def create_work(request):
             company_name = form.cleaned_data['company_name']
             position = form.cleaned_data['position']
             year = form.cleaned_data['year']
+            desciption = form.cleaned_data['description']
 
             work_experience = WorkExperience(
-                company_name=company_name, position=position, year=year)
+                company_name=company_name, position=position, year=year, desciption=desciption)
             work_experience.save()
 
             return redirect('/works')
@@ -72,7 +83,7 @@ def view_work(request, work_id):
 def edit_work(request, work_id):
     work = WorkExperience.objects.get(id=work_id)
     form = EditWork(initial={'company_name': work.company_name,
-                    'position': work.position, 'year': work.year})
+                    'position': work.position, 'year': work.year, 'description': work.description})
 
     if request.method == 'POST':
         form = EditWork(request.POST)
@@ -81,6 +92,7 @@ def edit_work(request, work_id):
             work.company_name = new_data['company_name']
             work.position = new_data['position']
             work.year = new_data['year']
+            work.desciption = form.cleaned_data['description']
             work.save()
             return redirect('works')
 
@@ -113,19 +125,19 @@ def personal_data_form(request):
     return render(request, 'home/personal_data_form.html', {'form': form})
 
 
-def projects(request):
-    projects = Projects.objects.all()
+# def projects(request):
+#     projects = Projects.objects.all()
 
-    form = SearcProject(request.GET)
-    if form.is_valid():
-        search = form.cleaned_data['project_name']
-        projects = Projects.objects.filter(
-            project_name__icontains=search)
-    data = {
-        'projects': projects,
-        'form': form,
-    }
-    return render(request, 'home/projects.html', {'data': data})
+#     form = SearcProject(request.GET)
+#     if form.is_valid():
+#         search = form.cleaned_data['project_name']
+#         projects = Projects.objects.filter(
+#             project_name__icontains=search)
+#     data = {
+#         'projects': projects,
+#         'form': form,
+#     }
+#     return render(request, 'home/projects.html', {'data': data})
 
 
 def create_project(request):
@@ -146,6 +158,19 @@ def create_project(request):
             return redirect('/projects')
 
     return render(request, 'project/create_project.html', {'form': form})
+
+
+class ProjectsListView(ListView):
+    model = Projects
+    context_object_name = 'projects'
+    template_name = 'home/projects.html'
+
+
+# class CreateProject(CreateView):
+#     model = Projects
+#     template_name = 'project/create_project.html'
+#     fields = ['project_name', 'project_description', 'project_link']
+#     success_url = reverse_lazy('projects')
 
 
 def view_project(request, project_id):

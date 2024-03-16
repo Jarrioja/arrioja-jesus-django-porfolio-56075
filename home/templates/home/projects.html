@@ -5,12 +5,12 @@
 {% block main %}
 <a href={% url "create_project" %}>Crear Proyecto</a>
 <form action={% url 'projects'%}>
-    {{data.form}}
+    {{form}}
     <input type="submit" value="Buscar">
   </form>
-{% if data.projects %}
+{% if projects %}
 <ul>
-  {% for project in data.projects %}
+  {% for project in projects %}
   <li>
     <strong>
       <a target="_blank" href={{project.project_link}}>

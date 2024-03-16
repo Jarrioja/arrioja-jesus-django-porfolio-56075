@@ -1,4 +1,5 @@
 from django import forms
+from ckeditor.fields import RichTextFormField
 
 
 class PersonalDataForm(forms.Form):
@@ -10,18 +11,21 @@ class WorkBaseForm(forms.Form):
     company_name = forms.CharField(max_length=100)
     position = forms.CharField(max_length=100)
     year = forms.IntegerField()
+    description = RichTextFormField()
 
 
 class CreateWork(WorkBaseForm):
     company_name = forms.CharField(max_length=100)
     position = forms.CharField(max_length=100)
     year = forms.IntegerField()
+    description = RichTextFormField()
 
 
 class EditWork(WorkBaseForm):
     company_name = forms.CharField(max_length=100)
     position = forms.CharField(max_length=100)
     year = forms.IntegerField()
+    description = RichTextFormField()
 
 
 class ProjectBaseForm(forms.Form):
@@ -30,7 +34,7 @@ class ProjectBaseForm(forms.Form):
     project_link = forms.URLField()
 
 
-class CreateProject(ProjectBaseForm):
+class CreateProjectForm(ProjectBaseForm):
     ...
 
 

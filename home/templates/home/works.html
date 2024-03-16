@@ -5,12 +5,12 @@
 {% block main %}
 <a href={% url "create_work" %}>Crear Trabajo</a>
 <form action={% url 'works'%}>
-    {{data.form}}
+    {{form}}
     <input type="submit" value="Buscar">
   </form>
-{% if data.work_experiences %}
+{% if work_experiences %}
 <ul>
-  {% for work in data.work_experiences %}
+  {% for work in work_experiences %}
   <li>
     <strong>{{work.company_name}}</strong> - {{work.year}}
     <br />

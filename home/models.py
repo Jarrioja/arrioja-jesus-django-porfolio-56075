@@ -1,4 +1,5 @@
 from django.db import models
+from ckeditor.fields import RichTextField
 
 # Create your models here.
 
@@ -15,6 +16,7 @@ class WorkExperience(models.Model):
     company_name = models.CharField(max_length=200)
     position = models.CharField(max_length=200)
     year = models.IntegerField(default=2000)
+    description = RichTextField(null=True)
 
     def __str__(self):
         return f"{self.company_name}"
